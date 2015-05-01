@@ -1,7 +1,7 @@
 Tooltip
 =======
 
-A simple plugin written in ES6
+A simple plugin written in ES6.
 
 ## Install
 
@@ -13,6 +13,9 @@ volo add -skipexists lagden/tooltip/0.1.0/es5 your/lib/path
 ## Usage
 
 Theres two ways:
+
+**Warning:**
+Examples written in `CoffeeScript`
 
 #### Vanilla
 
@@ -34,6 +37,8 @@ Theres two ways:
 ```
 
 ## Style
+
+Written in `Stylus`
 
 ```stylus
 .promote-layer
