@@ -180,6 +180,9 @@ module.exports = (grunt) ->
           src: ['**']
           dest: 'es5'
         ]
+      es5css:
+        src: '<%= project.dev %>/css/tooltip.css'
+        dest: 'es5/tooltip.css'
     project:
       'prod': 'build'
       'dev': 'dev'
@@ -220,6 +223,7 @@ module.exports = (grunt) ->
     'clean:es5'
     'default'
     'copy:es5'
+    'copy:es5css'
   ]
   grunt.registerTask 'serve', [
     'default'

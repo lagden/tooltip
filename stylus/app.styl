@@ -2,6 +2,7 @@
 
 @import 'stick/function'
 @import 'stick/mixin'
+@import 'tooltip'
 
 html, body
   margin 0
@@ -14,67 +15,8 @@ html
   color gray
   background-color white
 
-body
-  // position relative
-
-.promote-layer
-  backface-visibility hidden
-
-
-
-.theTooltip
-  $bgcolor = rgba(black, 0.7)
-  @extend .promote-layer
-  box-sizing border-box
-  color #fff
-  background-color $bgcolor
-  position absolute
-  top 0
-  left 0
-  right auto
-  bottom auto
-  display inline-block
-  padding 15px
-  border-radius 5px
-  visibility hidden
-  opacity 0
-  transition opacity 0.3s ease-out
-  z-index 100
-
-  &:after
-    width 0
-    height 0
-    border-left 10px solid transparent
-    border-right 10px solid transparent
-    border-top 10px solid $bgcolor
-    content ''
-    position absolute
-    left 50%
-    bottom -10px
-    margin-left -10px
-
-  &.top:after
-    border-top-color transparent
-    border-bottom 10px solid $bgcolor
-    top -20px
-    bottom auto
-
-  &.left:after
-    left 10px
-    margin 0
-
-  &.right:after
-    right 10px
-    left auto
-    margin 0
-
-  &--show
-    visibility visible
-    opacity 1
-
-.theTooltip-parent
-  position relative
-
 #info
   background red
   box-sizing border-box
+  width 400px
+  margin 0 auto

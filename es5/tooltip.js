@@ -47,12 +47,7 @@
   }();
   var _getStyleProperty = _interopRequire(_libGetStyleProperty);
   'use strict';
-  function findCenter(ba, bb) {
-    return {
-      x: Math.ceil(ba.width / 2 - bb.width / 2),
-      y: Math.ceil(ba.height / 2 - bb.height / 2)
-    };
-  }
+  var body = document.boby || _libUtils.qS('body');
   var transform = _getStyleProperty('transform');
   var Tooltip = function () {
     function Tooltip(target) {
@@ -63,52 +58,54 @@
         attr: 'data-title',
         content: '',
         html: false,
-        css: 'theTooltip'
+        css: 'theTooltip',
+        place: 'auto',
+        space: 15
       };
       // Object.assign(this.options, opts);
       _libUtils.objectAssign(this.options, opts);
       var tip = this.options.content || this.target.getAttribute(this.options.attr);
       this.tooltip = _libUtils.txt(document.createElement('div'), tip, this.options.html);
       this.tooltip.classList.add(this.options.css);
-      this.target.classList.add(this.options.css + '-parent');
-      this.target.appendChild(this.tooltip);
+      body.appendChild(this.tooltip);
       this.target.addEventListener('mouseenter', this, false);
       this.target.addEventListener('mouseleave', this, false);
       this.target.addEventListener('click', this, false);
-      window.addEventListener('resize', this, false);
-      this.center();
+      var tgBounds, ttBounds, top;
+      tgBounds = this.target.getBoundingClientRect();
+      ttBounds = this.tooltip.getBoundingClientRect();
+      top = (tgBounds.top - ttBounds.top).toFixed(1) - '';
+      this.tooltip.style.top = '' + top + 'px';
     }
     _createClass(Tooltip, [
       {
-        key: 'center',
-        value: function center() {
-          var center = findCenter(this.target.getBoundingClientRect(), this.tooltip.getBoundingClientRect());
-          this.tooltip.style.top = center.y + 'px';
-          this.tooltip.style.left = center.x + 'px';
-        }
-      },
-      {
         key: 'show',
         value: function show() {
-          var posTop, targBounds, tipBounds, top;
-          targBounds = this.target.getBoundingClientRect();
-          tipBounds = this.tooltip.getBoundingClientRect();
-          top = targBounds.top - tipBounds.height;
-          posTop = targBounds.height + tipBounds.height / 2;
-          if (top < 0) {
+          var tgBounds, ttBounds, check, y, pos, center, place = this.options.place;
+          tgBounds = this.target.getBoundingClientRect();
+          ttBounds = this.tooltip.getBoundingClientRect();
+          check = tgBounds.top - ttBounds.height;
+          pos = {
+            top: ((ttBounds.height + this.options.space).toFixed(1) - '') * -1,
+            bottom: (tgBounds.height + this.options.space).toFixed(1) - ''
+          };
+          center = (tgBounds.left + (tgBounds.width / 2 - ttBounds.width / 2)).toFixed(1) - '';
+          if ((check < 0 || place === 'bottom') && place !== 'top') {
+            y = pos.bottom;
             this.tooltip.classList.add('top');
           } else {
-            posTop *= -1;
+            y = pos.top;
             this.tooltip.classList.remove('top');
           }
-          this.tooltip.style[transform] = 'translate(0, ' + posTop + 'px)';
-          this.tooltip.classList.add(this.options.css + '--show');
+          this.tooltip.style.left = '' + center + 'px';
+          this.tooltip.style[transform] = 'translate(0, ' + y + 'px)';
+          this.tooltip.classList.add('' + this.options.css + '--show');
         }
       },
       {
         key: 'hide',
         value: function hide() {
-          this.tooltip.classList.remove(this.options.css + '--show');
+          this.tooltip.classList.remove('' + this.options.css + '--show');
         }
       },
       {
@@ -118,7 +115,6 @@
           this.target.removeEventListener('mouseleave', this, false);
           this.target.removeEventListener('click', this, false);
           this.target.removeChild(this.tooltip);
-          window.removeEventListener('resize', this, false);
         }
       },
       {
@@ -134,8 +130,6 @@
           case 'click':
             this.hide(event);
             break;
-          case 'resize':
-            this.center(event);
           }
         }
       }

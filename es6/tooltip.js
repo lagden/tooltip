@@ -3,13 +3,7 @@
 import {qS, txt, isElement, objectAssign} from './lib/utils';
 import getStyleProperty from './lib/get-style-property';
 
-function findCenter(ba, bb) {
-  return {
-    x: Math.ceil((ba.width / 2) - (bb.width / 2)),
-    y: Math.ceil((ba.height / 2) - (bb.height / 2))
-  };
-}
-
+let body = document.boby || qS('body');
 let transform = getStyleProperty('transform');
 
 class Tooltip {
@@ -19,7 +13,9 @@ class Tooltip {
       attr: 'data-title',
       content: '',
       html: false,
-      css: 'theTooltip'
+      css: 'theTooltip',
+      place: 'auto',
+      space: 15
     };
 
     // Object.assign(this.options, opts);
@@ -28,44 +24,54 @@ class Tooltip {
     let tip = this.options.content || this.target.getAttribute(this.options.attr);
     this.tooltip = txt(document.createElement('div'), tip, this.options.html);
     this.tooltip.classList.add(this.options.css);
-    this.target.classList.add(this.options.css + "-parent");
-    this.target.appendChild(this.tooltip);
+    body.appendChild(this.tooltip);
 
     this.target.addEventListener('mouseenter', this, false);
     this.target.addEventListener('mouseleave', this, false);
     this.target.addEventListener('click', this, false);
-    window.addEventListener('resize', this, false);
 
-    this.center();
-  }
-
-  center() {
-    let center = findCenter(
-      this.target.getBoundingClientRect(),
-      this.tooltip.getBoundingClientRect()
-    );
-    this.tooltip.style.top = center.y + "px";
-    this.tooltip.style.left = center.x + "px";
+    let tgBounds, ttBounds, top;
+    tgBounds = this.target.getBoundingClientRect();
+    ttBounds = this.tooltip.getBoundingClientRect();
+    top = (tgBounds.top - ttBounds.top).toFixed(1) - '';
+    this.tooltip.style.top = `${top}px`;
   }
 
   show() {
-    let posTop, targBounds, tipBounds, top;
-    targBounds = this.target.getBoundingClientRect();
-    tipBounds = this.tooltip.getBoundingClientRect();
-    top = targBounds.top - tipBounds.height;
-    posTop = targBounds.height + (tipBounds.height / 2);
-    if (top < 0) {
+    let tgBounds,
+        ttBounds,
+        check,
+        y,
+        pos,
+        center,
+        place = this.options.place;
+
+    tgBounds = this.target.getBoundingClientRect();
+    ttBounds = this.tooltip.getBoundingClientRect();
+
+    check = tgBounds.top - ttBounds.height;
+    pos = {
+      'top': ((ttBounds.height + this.options.space).toFixed(1) - '') * -1,
+      'bottom': ((tgBounds.height + this.options.space).toFixed(1) - '')
+    };
+    center = (tgBounds.left +
+        ((tgBounds.width / 2) - (ttBounds.width / 2))).toFixed(1) - '';
+
+    if ((check < 0 || place === 'bottom') && place !== 'top') {
+      y = pos.bottom;
       this.tooltip.classList.add('top');
     } else {
-      posTop *= -1;
+      y = pos.top;
       this.tooltip.classList.remove('top');
     }
-    this.tooltip.style[transform] = "translate(0, " + posTop + "px)";
-    this.tooltip.classList.add(this.options.css + "--show");
+
+    this.tooltip.style.left = `${center}px`;
+    this.tooltip.style[transform] = `translate(0, ${y}px)`;
+    this.tooltip.classList.add(`${this.options.css}--show`);
   }
 
   hide() {
-    this.tooltip.classList.remove(this.options.css + "--show");
+    this.tooltip.classList.remove(`${this.options.css}--show`);
   }
 
   destroy() {
@@ -73,7 +79,6 @@ class Tooltip {
     this.target.removeEventListener('mouseleave', this, false);
     this.target.removeEventListener('click', this, false);
     this.target.removeChild(this.tooltip);
-    window.removeEventListener('resize', this, false);
   }
 
   handleEvent(event) {
@@ -87,8 +92,6 @@ class Tooltip {
       case 'click':
         this.hide(event);
         break;
-      case 'resize':
-        this.center(event);
     }
   }
 }

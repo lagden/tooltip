@@ -26,9 +26,12 @@ Examples written in `CoffeeScript`
 #### jQuery
 
 ```coffeescript
-  $('.tips').theTooltip()
+  $tips = $ '.tips'
+  $tips.theTooltip()
 
-  $('#info').theTooltip
+  # Custom options
+  $info = $ '#info'
+  $info.theTooltip
     content: '''
       <h3>Title</h3>
       <p>Some pretty cool stuff!</p>
@@ -38,56 +41,7 @@ Examples written in `CoffeeScript`
 
 ## Style
 
-Written in `Stylus`
-
-```stylus
-.promote-layer
-  backface-visibility hidden
-
-.theTooltip
-  $bgcolor = rgba(black, 0.7)
-  @extend .promote-layer
-  box-sizing border-box
-  color #fff
-  background-color $bgcolor
-  position absolute
-  top 0
-  left 0
-  right auto
-  bottom auto
-  display inline-block
-  padding 15px
-  border-radius 5px
-  visibility hidden
-  opacity 0
-  transition opacity 0.3s ease-out
-  z-index 100
-
-  &:after
-    width 0
-    height 0
-    border-left 10px solid transparent
-    border-right 10px solid transparent
-    border-top 10px solid $bgcolor
-    content ''
-    position absolute
-    left 50%
-    bottom -10px
-    margin-left -10px
-
-  &.top:after
-    border-top-color transparent
-    border-bottom 10px solid $bgcolor
-    top -20px
-    bottom auto
-
-  &--show
-    visibility visible
-    opacity 1
-
-.theTooltip-parent
-  position relative
-```
+Take a look on [es5/tooltip.css](https://github.com/lagden/tooltip/blob/master/es5/tooltip.css) file
 
 ## Credit
 
