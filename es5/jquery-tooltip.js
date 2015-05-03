@@ -19,11 +19,29 @@
   };
   var _$ = _interopRequire(_jquery);
   var _Tooltip = _interopRequire(_tooltip);
-  _$.fn.theTooltip = function (options) {
-    this.each(function () {
-      if (!_$.data(this, 'Tooltip')) {
-        _$.data(this, 'Tooltip', new _Tooltip(this, options));
+  var pluginName = 'theTooltip';
+  function Plugin() {
+    var option = arguments[0] === undefined ? {} : arguments[0];
+    var namespace = 'lagden.' + pluginName;
+    return this.each(function () {
+      var instance = _$.data(this, namespace);
+      if (instance) {
+        if (typeof option === 'string' && /destroy/.test(option)) {
+          _$.removeData(this, namespace);
+          instance[option]();
+          instance = null;
+        }
+      } else if (typeof option !== 'string') {
+        instance = new _Tooltip(this, option);
+        _$.data(this, namespace, instance);
       }
     });
+  }
+  var old = _$.fn[pluginName];
+  _$.fn[pluginName] = Plugin;
+  _$.fn[pluginName].Constructor = _Tooltip;
+  _$.fn[pluginName].noConflict = function () {
+    _$.fn[pluginName] = old;
+    return this;
   };
 }));

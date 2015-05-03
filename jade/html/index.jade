@@ -4,7 +4,7 @@ html
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge, chrome=1')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
-    title App
+    title Tooltip
     link(rel='stylesheet', href='css/app.css')
     link(rel='shortcut icon', type='image/ico', href='favicon.ico')
     if (build)
@@ -13,15 +13,16 @@ html
       script(src='js/lib/require.js', data-main='js/main', async)
   body
     article
-      h1 Basic App
-      p Making a better and awesome web!!!
-      p Making a better and awesome web!!!
-      p Making a better and awesome web!!!
-      p Making a better and awesome web!!!
-      p Making a better and awesome web!!!
+      h1 Example
+      p -
+      p -
+      p -
+      p -
+      p -
       #info(data-title="Ulala")
       - var n = 0
       ul
         while n < 100
-          li= n++
-            abbr.tips(data-title="Ulala") tips
+          - n++
+          li
+            abbr.tips(data-title="Ulala") Tips

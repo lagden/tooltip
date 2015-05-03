@@ -49,11 +49,24 @@
   'use strict';
   var body = document.boby || _libUtils.qS('body');
   var transform = _getStyleProperty('transform');
+  // Globally unique identifiers
+  var GUID = 0;
+  // Internal store of all Tooltip intances
+  var instances = {};
   var Tooltip = function () {
     function Tooltip(target) {
       var opts = arguments[1] === undefined ? {} : arguments[1];
       _classCallCheck(this, Tooltip);
       this.target = _libUtils.isElement(target) ? target : _libUtils.qS(target);
+      // Check if element was initialized and return your instance
+      var initialized = Tooltip.data(this.target);
+      if (initialized instanceof Tooltip) {
+        return initialized;
+      }
+      // Storage current instance
+      var id = ++GUID;
+      this.target.GUID = id;
+      instances[id] = this;
       this.options = {
         attr: 'data-title',
         content: '',
@@ -71,6 +84,7 @@
       this.target.addEventListener('mouseenter', this, false);
       this.target.addEventListener('mouseleave', this, false);
       this.target.addEventListener('click', this, false);
+      // Initial position
       var tgBounds, ttBounds, top;
       tgBounds = this.target.getBoundingClientRect();
       ttBounds = this.tooltip.getBoundingClientRect();
@@ -81,15 +95,16 @@
       {
         key: 'show',
         value: function show() {
-          var tgBounds, ttBounds, check, y, pos, center, place = this.options.place;
-          tgBounds = this.target.getBoundingClientRect();
-          ttBounds = this.tooltip.getBoundingClientRect();
-          check = tgBounds.top - ttBounds.height;
-          pos = {
+          var y;
+          var place = this.options.place;
+          var tgBounds = this.target.getBoundingClientRect();
+          var ttBounds = this.tooltip.getBoundingClientRect();
+          var check = tgBounds.top - ttBounds.height;
+          var pos = {
             top: ((ttBounds.height + this.options.space).toFixed(1) - '') * -1,
             bottom: (tgBounds.height + this.options.space).toFixed(1) - ''
           };
-          center = (tgBounds.left + (tgBounds.width / 2 - ttBounds.width / 2)).toFixed(1) - '';
+          var center = (tgBounds.left + (tgBounds.width / 2 - ttBounds.width / 2)).toFixed(1) - '';
           if ((check < 0 || place === 'bottom') && place !== 'top') {
             y = pos.bottom;
             this.tooltip.classList.add('top');
@@ -114,7 +129,10 @@
           this.target.removeEventListener('mouseenter', this, false);
           this.target.removeEventListener('mouseleave', this, false);
           this.target.removeEventListener('click', this, false);
-          this.target.removeChild(this.tooltip);
+          body.removeChild(this.tooltip);
+          var id = this.target.GUID;
+          delete instances[id];
+          delete this.target.GUID;
         }
       },
       {
@@ -136,5 +154,9 @@
     ]);
     return Tooltip;
   }();
+  Tooltip.data = function (el) {
+    var id = el && el.GUID;
+    return id && instances[id];
+  };
   module.exports = Tooltip;
 }));

@@ -10,12 +10,30 @@ npm install -g volo
 volo add -skipexists lagden/tooltip/0.1.0/es5 your/lib/path
 ```
 
+## Methods
+
+There are three methods: `show`, `hide` and `destroy`.  
+Only `destroy` is available when you are using with jQuery.
+
+## Options
+
+Some options can be passed when initialize:
+
+| Option | Description | Default |
+| --- | --- | --- |
+| attr | Whence come the value | `'data-title'` |
+| content | Custom value | `''` |
+| html | Escaping your value | `false` |
+| css | The component stylesheet class name | `'theTooltip'` |
+| place | Force the place where shown the tooltip. Possibles values: `auto`, `top` and `bottom` | `'auto'` |
+| space | Add some space between target and tooltip | `15` |
+
 ## Usage
 
 Theres two ways:
 
 **Warning:**
-Examples written in `CoffeeScript`
+Examples written in `CoffeeScript`.
 
 #### Vanilla
 
@@ -41,7 +59,11 @@ Examples written in `CoffeeScript`
 
 ## Style
 
-Take a look on [es5/tooltip.css](https://github.com/lagden/tooltip/blob/master/es5/tooltip.css) file
+Take a look on [es5/tooltip.css](https://github.com/lagden/tooltip/blob/master/es5/tooltip.css) file.
+
+## Example
+
+See [here](http://lagden.github.io/tooltip/).
 
 ## Credit
 

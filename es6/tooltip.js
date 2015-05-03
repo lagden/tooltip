@@ -6,9 +6,26 @@ import getStyleProperty from './lib/get-style-property';
 let body = document.boby || qS('body');
 let transform = getStyleProperty('transform');
 
+// Globally unique identifiers
+let GUID = 0;
+
+// Internal store of all Tooltip intances
+let instances = {};
+
 class Tooltip {
   constructor(target, opts = {}) {
     this.target = isElement(target) ? target : qS(target);
+
+    // Check if element was initialized and return your instance
+    let initialized = Tooltip.data(this.target);
+    if (initialized instanceof Tooltip)
+      return initialized;
+
+    // Storage current instance
+    let id = ++GUID;
+    this.target.GUID = id;
+    instances[id] = this;
+
     this.options = {
       attr: 'data-title',
       content: '',
@@ -30,6 +47,7 @@ class Tooltip {
     this.target.addEventListener('mouseleave', this, false);
     this.target.addEventListener('click', this, false);
 
+    // Initial position
     let tgBounds, ttBounds, top;
     tgBounds = this.target.getBoundingClientRect();
     ttBounds = this.tooltip.getBoundingClientRect();
@@ -38,23 +56,16 @@ class Tooltip {
   }
 
   show() {
-    let tgBounds,
-        ttBounds,
-        check,
-        y,
-        pos,
-        center,
-        place = this.options.place;
-
-    tgBounds = this.target.getBoundingClientRect();
-    ttBounds = this.tooltip.getBoundingClientRect();
-
-    check = tgBounds.top - ttBounds.height;
-    pos = {
+    let y;
+    let place = this.options.place;
+    let tgBounds = this.target.getBoundingClientRect();
+    let ttBounds = this.tooltip.getBoundingClientRect();
+    let check = tgBounds.top - ttBounds.height;
+    let pos = {
       'top': ((ttBounds.height + this.options.space).toFixed(1) - '') * -1,
       'bottom': ((tgBounds.height + this.options.space).toFixed(1) - '')
     };
-    center = (tgBounds.left +
+    let center = (tgBounds.left +
         ((tgBounds.width / 2) - (ttBounds.width / 2))).toFixed(1) - '';
 
     if ((check < 0 || place === 'bottom') && place !== 'top') {
@@ -78,7 +89,12 @@ class Tooltip {
     this.target.removeEventListener('mouseenter', this, false);
     this.target.removeEventListener('mouseleave', this, false);
     this.target.removeEventListener('click', this, false);
-    this.target.removeChild(this.tooltip);
+
+    body.removeChild(this.tooltip);
+
+    let id = this.target.GUID;
+    delete instances[id];
+    delete this.target.GUID;
   }
 
   handleEvent(event) {
@@ -95,5 +111,10 @@ class Tooltip {
     }
   }
 }
+
+Tooltip.data = function(el) {
+  let id = el && el.GUID;
+  return id && instances[id];
+};
 
 export default Tooltip;
