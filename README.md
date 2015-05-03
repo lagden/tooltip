@@ -13,7 +13,7 @@ volo add -skipexists lagden/tooltip/0.1.0/es5 your/lib/path
 ## Methods
 
 There are three methods: `show`, `hide` and `destroy`.  
-Only `destroy` is available when you are using with jQuery.
+Only `destroy` is available when you are using as **jQuery plugin**.
 
 ## Options
 
@@ -57,7 +57,7 @@ Examples written in `CoffeeScript`.
     html: true
 ```
 
-## Style
+## Stylesheet
 
 Take a look on [es5/tooltip.css](https://github.com/lagden/tooltip/blob/master/es5/tooltip.css) file.
 
