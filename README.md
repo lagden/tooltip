@@ -21,7 +21,7 @@ Some options can be passed when initialize:
 
 | Option | Description | Default |
 | --- | --- | --- |
-| attr | Whence come the value | `'data-title'` |
+| attr | Specify from whence come the value | `'data-title'` |
 | content | Custom value | `''` |
 | html | Escaping your value | `false` |
 | css | The component stylesheet class name | `'theTooltip'` |
@@ -30,7 +30,7 @@ Some options can be passed when initialize:
 
 ## Usage
 
-Theres two ways:
+There are two ways:
 
 **Warning:**
 Examples written in `CoffeeScript`.
