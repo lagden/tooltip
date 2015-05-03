@@ -51,7 +51,7 @@ class Tooltip {
     let tgBounds, ttBounds, top;
     tgBounds = this.target.getBoundingClientRect();
     ttBounds = this.tooltip.getBoundingClientRect();
-    top = (tgBounds.top - ttBounds.top).toFixed(1) - '';
+    top = (tgBounds.top - ttBounds.top).toFixed(0) - '';
     this.tooltip.style.top = `${top}px`;
   }
 
@@ -62,11 +62,11 @@ class Tooltip {
     let ttBounds = this.tooltip.getBoundingClientRect();
     let check = tgBounds.top - ttBounds.height;
     let pos = {
-      'top': ((ttBounds.height + this.options.space).toFixed(1) - '') * -1,
-      'bottom': ((tgBounds.height + this.options.space).toFixed(1) - '')
+      'top': ((ttBounds.height + this.options.space).toFixed(0) - '') * -1,
+      'bottom': ((tgBounds.height + this.options.space).toFixed(0) - '')
     };
     let center = (tgBounds.left +
-        ((tgBounds.width / 2) - (ttBounds.width / 2))).toFixed(1) - '';
+        ((tgBounds.width / 2) - (ttBounds.width / 2))).toFixed(0) - '';
 
     if ((check < 0 || place === 'bottom') && place !== 'top') {
       y = pos.bottom;
