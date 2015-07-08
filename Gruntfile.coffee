@@ -40,7 +40,8 @@ module.exports = (grunt) ->
         src: [ '**/*.js' ]
         dest: '<%= project.dev %>/js'
         ext: '.js'
-      } ]
+      }]
+
     jade:
       js:
         options:
@@ -77,6 +78,7 @@ module.exports = (grunt) ->
           dest: '<%= project.dev %>'
           ext: '.html'
         } ]
+
     autoprefixer:
       options: browsers: [ 'last 1 version' ]
       files:
@@ -86,6 +88,7 @@ module.exports = (grunt) ->
         src: [ '*.css' ]
         dest: '<%= project.dev %>/css'
         ext: '.css'
+
     watch:
       script:
         files: [ '<%= project.coffee %>/**/*.coffee', 'es6/**/*.js' ]
@@ -99,6 +102,7 @@ module.exports = (grunt) ->
       jadeToJs:
         files: [ '<%= project.jade %>/js/**/*.jade' ]
         tasks: [ 'jade:js' ]
+
     browserSync:
       dev:
         bsFiles: src: '<%= project.dev %>/css/*.css'
@@ -112,6 +116,7 @@ module.exports = (grunt) ->
         watchTask: false
         port: 8184
         server: baseDir: [ '<%= project.prod %>' ]
+
     requirejs: almond: options:
       optimize: 'uglify2'
       uglify2:
@@ -130,7 +135,7 @@ module.exports = (grunt) ->
       useStrict: true
       baseUrl: '<%= project.dev %>/js/lib'
       mainConfigFile: '<%= project.dev %>/js/config.js'
-      name: 'almond'
+      name: '../../../node_modules/almond/almond',
       include: [ '../main' ]
       out: '<%= project.prod %>/js/main.js'
     cssmin: dynamic:
@@ -145,6 +150,7 @@ module.exports = (grunt) ->
         dest: '<%= project.prod %>/css'
         ext: '.css'
       } ]
+
     minifyHtml: dynamic:
       options:
         comments: false
@@ -159,16 +165,19 @@ module.exports = (grunt) ->
         src: [ '**/*.html' ]
         dest: '<%= project.prod %>'
       } ]
+
     concurrent: dev: [
       'scripts'
       'styles'
       'jade:js'
       'jade:html'
     ]
+
     clean:
       dist: [ '<%= project.prod %>' ]
       tmp: [ '<%= project.tmp %>' ]
       es5: [ 'es5' ]
+
     copy:
       dist:
         src: '<%= project.dev %>/favicon.ico'
@@ -183,6 +192,7 @@ module.exports = (grunt) ->
       es5css:
         src: '<%= project.dev %>/css/tooltip.css'
         dest: 'es5/tooltip.css'
+
     project:
       'prod': 'build'
       'dev': 'dev'
@@ -190,6 +200,7 @@ module.exports = (grunt) ->
       'coffee': 'coffee'
       'jade': 'jade'
       'pre': 'stylus'
+
     stylus: 'dev':
       'options': 'compress': false
       'files': [ {
@@ -200,8 +211,28 @@ module.exports = (grunt) ->
         'dest': '<%= project.tmp %>/css'
         'ext': '.css'
       } ]
+
+    symlink:
+      options:
+        overwrite: false
+      require:
+        src: 'node_modules/requirejs/require.js'
+        dest: '<%= project.dev %>/js/lib/require.js'
+      jadeRuntime:
+        src: 'node_modules/grunt-contrib-jade/node_modules/jade/runtime.js'
+        dest: '<%= project.dev %>/js/lib/jade.js'
+      jquery:
+        src: 'node_modules/jquery/dist/jquery.js'
+        dest: '<%= project.dev %>/js/lib/jquery.js'
+      getStyleProperty:
+        src: 'node_modules/desandro-get-style-property/get-style-property.js'
+        dest: [
+          '<%= project.dev %>/js/lib/get-style-property/get-style-property.js'
+        ].join()
+
   grunt.registerTask 'default', [
     'clean:tmp'
+    'symlink'
     'concurrent:dev'
   ]
   grunt.registerTask 'scripts', [

@@ -20,9 +20,7 @@ html
       p -
       p -
       #info(data-title="Ulala")
-      - var n = 0
-      ul
-        while n < 100
-          - n++
+      - for(var i = 0; i < 100; i++)
+        ul
           li
             abbr.tips(data-title="Ulala") Tips

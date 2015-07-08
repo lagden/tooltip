@@ -1,9 +1,10 @@
 'use strict';
 
 import {qS, txt, isElement, objectAssign} from './lib/utils';
-import getStyleProperty from './lib/get-style-property';
+import getStyleProperty from 'get-style-property/get-style-property';
 
-let body = document.boby || qS('body');
+let doc = window ? window.document : global;
+let body = doc.boby || qS('body');
 let transform = getStyleProperty('transform');
 
 // Globally unique identifiers
@@ -18,8 +19,9 @@ class Tooltip {
 
     // Check if element was initialized and return your instance
     let initialized = Tooltip.data(this.target);
-    if (initialized instanceof Tooltip)
+    if (initialized instanceof Tooltip) {
       return initialized;
+    }
 
     // Storage current instance
     let id = ++GUID;
@@ -39,20 +41,13 @@ class Tooltip {
     objectAssign(this.options, opts);
 
     let tip = this.options.content || this.target.getAttribute(this.options.attr);
-    this.tooltip = txt(document.createElement('div'), tip, this.options.html);
+    this.tooltip = txt(doc.createElement('div'), tip, this.options.html);
     this.tooltip.classList.add(this.options.css);
     body.appendChild(this.tooltip);
 
     this.target.addEventListener('mouseenter', this, false);
     this.target.addEventListener('mouseleave', this, false);
     this.target.addEventListener('click', this, false);
-
-    // Initial position
-    let tgBounds, ttBounds, top;
-    tgBounds = this.target.getBoundingClientRect();
-    ttBounds = this.tooltip.getBoundingClientRect();
-    top = (tgBounds.top - ttBounds.top).toFixed(0) - '';
-    this.tooltip.style.top = `${top}px`;
   }
 
   show() {
@@ -66,7 +61,8 @@ class Tooltip {
       'bottom': ((tgBounds.height + this.options.space).toFixed(0) - '')
     };
     let center = (tgBounds.left +
-        ((tgBounds.width / 2) - (ttBounds.width / 2))).toFixed(0) - '';
+      ((tgBounds.width / 2) - (ttBounds.width / 2))
+    ).toFixed(0) - '';
 
     if ((check < 0 || place === 'bottom') && place !== 'top') {
       y = pos.bottom;
@@ -76,6 +72,7 @@ class Tooltip {
       this.tooltip.classList.remove('top');
     }
 
+    this.tooltip.style.top = `${tgBounds.top}px`;
     this.tooltip.style.left = `${center}px`;
     this.tooltip.style[transform] = `translate(0, ${y}px)`;
     this.tooltip.classList.add(`${this.options.css}--show`);

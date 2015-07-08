@@ -4,21 +4,38 @@
   "author": {
     "name": "Thiago Lagden"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
-    "test": "echo \"No test specified\" && exit 1",
-    "install": "node_modules/volo/bin/volo add -skipexists"
+    "test": "echo \"No test specified\" && exit 1"
   },
+  "main": [
+    "es5/tooltip.css",
+    "es5/tooltip.js",
+    "es5/lib/utils.js"
+  ],
   "volo": {
-    "baseUrl": "dev/js/lib",
     "dependencies": {
-      "require": "github:jrburke/requirejs/2.1.17",
-      "almond": "github:jrburke/almond/0.3.1",
-      "jade": "github:jadejs/jade/1.9.2",
-      "jquery": "github:jquery/jquery/2.1.4"
-    }
+      "get-style-property/get-style-property": "desandro/get-style-property/~1.0.4"
+    },
+    "ignore": [
+      "**/.*",
+      "bin",
+      "build",
+      "coffee",
+      "dev",
+      "jade",
+      "node_modules",
+      "stylus",
+      "test",
+      "tmp",
+      "*.md",
+      "Gruntfile.*",
+      "bower.json",
+      "package.json"
+    ]
   },
   "devDependencies": {
+    "almond": "^0.3.1",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^3.0.0",
     "grunt-babel": "^5.0.0",
@@ -31,12 +48,17 @@
     "grunt-contrib-jade": "^0.14.1",
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-stylus": "^0.21.0",
+    "grunt-contrib-symlink": "^0.3.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-fixmyjs": "^0.3.0",
     "grunt-minify-html": "^2.0.0",
+    "jquery": "^2.1.4",
     "jshint-stylish": "^1.0.1",
     "load-grunt-tasks": "^3.1.0",
-    "time-grunt": "^1.1.1",
-    "volo": "^0.3.6"
+    "requirejs": "^2.1.18",
+    "time-grunt": "^1.1.1"
+  },
+  "dependencies": {
+    "desandro-get-style-property": "^1.0.4"
   }
 }

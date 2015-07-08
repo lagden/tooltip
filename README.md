@@ -7,7 +7,7 @@ A simple plugin written in ES6.
 
 ```shell
 npm install -g volo
-volo add -skipexists lagden/tooltip/0.1.0/es5 your/lib/path
+volo add -skipexists lagden/tooltip/0.1.1/es5 your/lib/path
 ```
 
 ## Methods
