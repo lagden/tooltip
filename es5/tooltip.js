@@ -4,16 +4,16 @@
       'exports',
       'module',
       './lib/utils',
-      './lib/get-style-property'
+      'get-style-property/get-style-property'
     ], factory);
   } else if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
-    factory(exports, module, require('./lib/utils'), require('./lib/get-style-property'));
+    factory(exports, module, require('./lib/utils'), require('get-style-property/get-style-property'));
   } else {
     var mod = { exports: {} };
     factory(mod.exports, mod, global.utils, global.getStyleProperty);
     global.tooltip = mod.exports;
   }
-}(this, function (exports, module, _libUtils, _libGetStyleProperty) {
+}(this, function (exports, module, _libUtils, _getStylePropertyGetStyleProperty) {
   'use strict';
   var _interopRequire = function (obj) {
     return obj && obj.__esModule ? obj['default'] : obj;
@@ -45,9 +45,10 @@
       return Constructor;
     };
   }();
-  var _getStyleProperty = _interopRequire(_libGetStyleProperty);
+  var _getStyleProperty = _interopRequire(_getStylePropertyGetStyleProperty);
   'use strict';
-  var body = document.boby || _libUtils.qS('body');
+  var doc = window ? window.document : global;
+  var body = doc.boby || _libUtils.qS('body');
   var transform = _getStyleProperty('transform');
   // Globally unique identifiers
   var GUID = 0;
@@ -78,18 +79,12 @@
       // Object.assign(this.options, opts);
       _libUtils.objectAssign(this.options, opts);
       var tip = this.options.content || this.target.getAttribute(this.options.attr);
-      this.tooltip = _libUtils.txt(document.createElement('div'), tip, this.options.html);
+      this.tooltip = _libUtils.txt(doc.createElement('div'), tip, this.options.html);
       this.tooltip.classList.add(this.options.css);
       body.appendChild(this.tooltip);
       this.target.addEventListener('mouseenter', this, false);
       this.target.addEventListener('mouseleave', this, false);
       this.target.addEventListener('click', this, false);
-      // Initial position
-      var tgBounds, ttBounds, top;
-      tgBounds = this.target.getBoundingClientRect();
-      ttBounds = this.tooltip.getBoundingClientRect();
-      top = (tgBounds.top - ttBounds.top).toFixed(0) - '';
-      this.tooltip.style.top = '' + top + 'px';
     }
     _createClass(Tooltip, [
       {
@@ -112,6 +107,7 @@
             y = pos.top;
             this.tooltip.classList.remove('top');
           }
+          this.tooltip.style.top = '' + tgBounds.top + 'px';
           this.tooltip.style.left = '' + center + 'px';
           this.tooltip.style[transform] = 'translate(0, ' + y + 'px)';
           this.tooltip.classList.add('' + this.options.css + '--show');
