@@ -1,117 +1,120 @@
 'use strict';
 
-import {qS, txt, isElement, objectAssign} from './lib/utils';
+import {txt, isElement, objectAssign} from './lib/utils';
 import getStyleProperty from 'get-style-property/get-style-property';
 
-let doc = window ? window.document : global;
-let body = doc.boby || qS('body');
-let transform = getStyleProperty('transform');
+const doc = window ? window.document : global;
+const qS = el => doc.querySelector(el);
+const body = doc.boby || qS('body');
+const transform = getStyleProperty('transform');
 
 // Globally unique identifiers
 let GUID = 0;
 
 // Internal store of all Tooltip intances
-let instances = {};
+const instances = {};
 
 class Tooltip {
-  constructor(target, opts = {}) {
-    this.target = isElement(target) ? target : qS(target);
+	constructor(target, opts = {}) {
+		this.target = isElement(target) ? target : qS(target);
 
-    // Check if element was initialized and return your instance
-    let initialized = Tooltip.data(this.target);
-    if (initialized instanceof Tooltip) {
-      return initialized;
-    }
+		// Check if element was initialized and return your instance
+		const initialized = Tooltip.data(this.target);
+		if (initialized instanceof Tooltip) {
+			return initialized;
+		}
 
-    // Storage current instance
-    let id = ++GUID;
-    this.target.GUID = id;
-    instances[id] = this;
+		// Storage current instance
+		const id = ++GUID;
+		this.target.GUID = id;
+		instances[id] = this;
 
-    this.options = {
-      attr: 'data-title',
-      content: '',
-      html: false,
-      css: 'theTooltip',
-      place: 'auto',
-      space: 15
-    };
+		this.options = {
+			attr: 'data-title',
+			content: '',
+			html: false,
+			css: 'theTooltip',
+			place: 'auto',
+			space: 15
+		};
 
-    // Object.assign(this.options, opts);
-    objectAssign(this.options, opts);
+		// Object.assign(this.options, opts);
+		objectAssign(this.options, opts);
 
-    let tip = this.options.content || this.target.getAttribute(this.options.attr);
-    this.tooltip = txt(doc.createElement('div'), tip, this.options.html);
-    this.tooltip.classList.add(this.options.css);
-    body.appendChild(this.tooltip);
+		const tip = this.options.content || this.target.getAttribute(this.options.attr);
+		this.tooltip = txt(doc.createElement('div'), tip, this.options.html);
+		this.tooltip.classList.add(this.options.css);
+		body.appendChild(this.tooltip);
 
-    this.target.addEventListener('mouseenter', this, false);
-    this.target.addEventListener('mouseleave', this, false);
-    this.target.addEventListener('click', this, false);
-  }
+		this.target.addEventListener('mouseenter', this, false);
+		this.target.addEventListener('mouseleave', this, false);
+		this.target.addEventListener('click', this, false);
+	}
 
-  show() {
-    let y;
-    let place = this.options.place;
-    let tgBounds = this.target.getBoundingClientRect();
-    let ttBounds = this.tooltip.getBoundingClientRect();
-    let check = tgBounds.top - ttBounds.height;
-    let pos = {
-      'top': ((ttBounds.height + this.options.space).toFixed(0) - '') * -1,
-      'bottom': ((tgBounds.height + this.options.space).toFixed(0) - '')
-    };
-    let center = (tgBounds.left +
-      ((tgBounds.width / 2) - (ttBounds.width / 2))
-    ).toFixed(0) - '';
+	show() {
+		let y;
+		const place = this.options.place;
+		const tgBounds = this.target.getBoundingClientRect();
+		const ttBounds = this.tooltip.getBoundingClientRect();
+		const check = tgBounds.top - ttBounds.height;
+		const pos = {
+			top: ((ttBounds.height + this.options.space).toFixed(0) - '') * -1,
+			bottom: ((tgBounds.height + this.options.space).toFixed(0) - '')
+		};
+		const center = (tgBounds.left +
+			((tgBounds.width / 2) - (ttBounds.width / 2))
+				).toFixed(0) - '';
 
-    if ((check < 0 || place === 'bottom') && place !== 'top') {
-      y = pos.bottom;
-      this.tooltip.classList.add('top');
-    } else {
-      y = pos.top;
-      this.tooltip.classList.remove('top');
-    }
+		if ((check < 0 || place === 'bottom') && place !== 'top') {
+			y = pos.bottom;
+			this.tooltip.classList.add('top');
+		} else {
+			y = pos.top;
+			this.tooltip.classList.remove('top');
+		}
 
-    this.tooltip.style.top = `${tgBounds.top}px`;
-    this.tooltip.style.left = `${center}px`;
-    this.tooltip.style[transform] = `translate(0, ${y}px)`;
-    this.tooltip.classList.add(`${this.options.css}--show`);
-  }
+		this.tooltip.style.top = `${tgBounds.top}px`;
+		this.tooltip.style.left = `${center}px`;
+		this.tooltip.style[transform] = `translate(0, ${y}px)`;
+		this.tooltip.classList.add(`${this.options.css}--show`);
+	}
 
-  hide() {
-    this.tooltip.classList.remove(`${this.options.css}--show`);
-  }
+	hide() {
+		this.tooltip.classList.remove(`${this.options.css}--show`);
+	}
 
-  destroy() {
-    this.target.removeEventListener('mouseenter', this, false);
-    this.target.removeEventListener('mouseleave', this, false);
-    this.target.removeEventListener('click', this, false);
+	destroy() {
+		this.target.removeEventListener('mouseenter', this, false);
+		this.target.removeEventListener('mouseleave', this, false);
+		this.target.removeEventListener('click', this, false);
 
-    body.removeChild(this.tooltip);
+		body.removeChild(this.tooltip);
 
-    let id = this.target.GUID;
-    delete instances[id];
-    delete this.target.GUID;
-  }
+		const id = this.target.GUID;
+		delete instances[id];
+		delete this.target.GUID;
+	}
 
-  handleEvent(event) {
-    switch (event.type) {
-      case 'mouseenter':
-        this.show(event);
-        break;
-      case 'mouseleave':
-        this.hide(event);
-        break;
-      case 'click':
-        this.hide(event);
-        break;
-    }
-  }
+	handleEvent(event) {
+		switch (event.type) {
+			case 'mouseenter':
+				this.show(event);
+				break;
+			case 'mouseleave':
+				this.hide(event);
+				break;
+			case 'click':
+				this.hide(event);
+				break;
+			default:
+				break;
+		}
+	}
 }
 
-Tooltip.data = function(el) {
-  let id = el && el.GUID;
-  return id && instances[id];
+Tooltip.data = el => {
+	const id = el && el.GUID;
+	return id && instances[id];
 };
 
 export default Tooltip;

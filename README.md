@@ -1,13 +1,12 @@
 Tooltip
 =======
 
-A simple plugin written in ES6.
+> A simple plugin written in ES6.
 
 ## Install
 
-```shell
-npm install -g volo
-volo add -skipexists lagden/tooltip/0.1.1/es5 your/lib/path
+```
+npm install lagden/tooltip
 ```
 
 ## Methods

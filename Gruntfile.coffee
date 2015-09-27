@@ -1,46 +1,51 @@
 'use strict'
 
 module.exports = (grunt) ->
-  require('load-grunt-tasks') grunt
+  require('jit-grunt') grunt
   require('time-grunt') grunt
+
   grunt.file.defaultEncoding = 'utf8'
+
   grunt.initConfig
+    project:
+      'prod': 'build'
+      'dev': 'dev'
+      'tmp': 'tmp'
+      'coffee': 'coffee'
+      'jade': 'jade'
+      'pre': 'stylus'
+
+    xo:
+      options:
+        quiet: true
+        ignores: []
+      target: ['es6/**/*.js']
+
     coffee: compile:
-      options: bare: true
-      files: [ {
+      options:
+        bare: true
+      files: [
         expand: true
         flatten: false
         cwd: '<%= project.coffee %>'
         src: [ '**/*.coffee' ]
-        dest: '<%= project.tmp %>/js'
-        ext: '.js'
-      }]
-
-    babel: compile:
-      options:
-        sourceMap: false
-        modules: 'umd'
-      files: [ {
-        expand: true
-        flatten: false
-        cwd: 'es6'
-        src: [ '**/*.js' ]
-        dest: '<%= project.tmp %>/js/es5'
-        ext: '.js'
-      }]
-
-    fixmyjs:
-      options:
-        jshintrc: '.jshintrc'
-        indentpref: 'spaces'
-      fix: files: [ {
-        expand: true
-        flatten: false
-        cwd: '<%= project.tmp %>/js'
-        src: [ '**/*.js' ]
         dest: '<%= project.dev %>/js'
         ext: '.js'
-      }]
+      ]
+
+    babel:
+      compile:
+        options:
+          sourceMap: false
+          modules: 'umd'
+        files: [
+          expand: true
+          flatten: false
+          cwd: 'es6'
+          src: [ '**/*.js' ]
+          dest: '<%= project.dev %>/js/es5'
+          ext: '.js'
+        ]
 
     jade:
       js:
@@ -48,46 +53,36 @@ module.exports = (grunt) ->
           amd: true
           client: true
           namespace: false
-        files: [ {
+        files: [
           expand: true
           flatten: true
           cwd: '<%= project.jade %>/js'
           src: [ '**/*.jade' ]
           dest: '<%= project.dev %>/js/templates'
           ext: '.js'
-        } ]
+        ]
       html:
         options: pretty: true
-        files: [ {
+        files: [
           expand: true
           flatten: false
           cwd: '<%= project.jade %>/html'
           src: [ '**/*.jade' ]
           dest: '<%= project.dev %>'
           ext: '.html'
-        } ]
+        ]
       build:
         options:
           pretty: false
           data: build: true
-        files: [ {
+        files: [
           expand: true
           flatten: false
           cwd: '<%= project.jade %>/html'
           src: [ '**/*.jade' ]
           dest: '<%= project.dev %>'
           ext: '.html'
-        } ]
-
-    autoprefixer:
-      options: browsers: [ 'last 1 version' ]
-      files:
-        expand: true
-        flatten: false
-        cwd: '<%= project.tmp %>/css'
-        src: [ '*.css' ]
-        dest: '<%= project.dev %>/css'
-        ext: '.css'
+        ]
 
     watch:
       script:
@@ -193,24 +188,33 @@ module.exports = (grunt) ->
         src: '<%= project.dev %>/css/tooltip.css'
         dest: 'es5/tooltip.css'
 
-    project:
-      'prod': 'build'
-      'dev': 'dev'
-      'tmp': 'tmp'
-      'coffee': 'coffee'
-      'jade': 'jade'
-      'pre': 'stylus'
+    stylus:
+      dev:
+        options:
+          compress: false
+        files: [
+          expand: true
+          flatten: false
+          cwd: '<%= project.pre %>'
+          src: ['*.styl']
+          dest: '<%= project.dev %>/css'
+          ext: '.css'
+        ]
 
-    stylus: 'dev':
-      'options': 'compress': false
-      'files': [ {
-        'expand': true
-        'flatten': false
-        'cwd': '<%= project.pre %>'
-        'src': [ '*.styl' ]
-        'dest': '<%= project.tmp %>/css'
-        'ext': '.css'
-      } ]
+    postcss:
+      dev:
+        options:
+          processors: [
+            require('autoprefixer')(browsers: 'last 2 versions')
+          ]
+        files: [
+          expand: true
+          flatten: false
+          cwd: '<%= project.dev %>/css'
+          src: ['*.css']
+          dest: '<%= project.dev %>/css'
+          ext: '.css'
+        ]
 
     symlink:
       options:
@@ -236,9 +240,9 @@ module.exports = (grunt) ->
     'concurrent:dev'
   ]
   grunt.registerTask 'scripts', [
+    'xo'
     'coffee'
     'babel'
-    'fixmyjs:fix'
   ]
   grunt.registerTask 'build', [
     'clean:dist'
@@ -267,6 +271,6 @@ module.exports = (grunt) ->
   ]
   grunt.registerTask 'styles', [
     'stylus'
-    'autoprefixer'
+    'postcss'
   ]
   return
