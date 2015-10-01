@@ -3,7 +3,7 @@
 [![Dependency Status](https://david-dm.org/lagden/tooltip.svg)](https://david-dm.org/lagden/tooltip) 
 [![devDependency Status](https://david-dm.org/lagden/tooltip/dev-status.svg)](https://david-dm.org/lagden/tooltip#info=devDependencies) 
 
-> A simple tooltip.
+> A simple tooltip
 
 ## Install
 
@@ -24,8 +24,7 @@ bower install lagden-tooltip --save
 
 ### Methods
 
-There are three methods: `show`, `hide` and `destroy`.  
-Only `destroy` is available when you are using as **jQuery plugin**.
+There are three methods: `show`, `hide` and `destroy`.
 
 ### Options
 
