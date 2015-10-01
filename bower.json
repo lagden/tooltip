@@ -1,0 +1,46 @@
+{
+  "name": "lagden-tooltip",
+  "description": "Tooltip do Osvaldas",
+  "license": "MIT",
+  "authors": [{
+    "name": "Thiago Lagden",
+    "email": "lagden@gmail.com",
+    "homepage": "http://lagden.in"
+  }],
+  "main": [
+    "dist/tootip.js"
+  ],
+  "moduleType": [
+    "globals",
+    "amd",
+    "node",
+    "es6"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lagden/tooltip.git"
+  },
+  "ignore": [
+    "bin",
+    "build",
+    "coffee",
+    "dev",
+    "jade",
+    "stylus",
+    "test",
+    "node_modules",
+    "*.md",
+    "*.gif",
+    "Gruntfile.*",
+    "babel-hook.*",
+    "package.json",
+    ".*"
+  ],
+  "keywords": [
+    "tooltip",
+    "bubble"
+  ],
+  "dependencies": {
+    "lagden-utils": "~0.4.0"
+  }
+}

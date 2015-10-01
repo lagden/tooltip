@@ -1,20 +1,33 @@
-Tooltip
-=======
+# Tooltip 
+[![Build Status](https://travis-ci.org/lagden/tooltip.svg?branch=master)](https://travis-ci.org/lagden/tooltip) 
+[![Dependency Status](https://david-dm.org/lagden/tooltip.svg)](https://david-dm.org/lagden/tooltip) 
+[![devDependency Status](https://david-dm.org/lagden/tooltip/dev-status.svg)](https://david-dm.org/lagden/tooltip#info=devDependencies) 
 
-> A simple plugin written in ES6.
+> A simple tooltip.
 
 ## Install
 
+Via [NPM](https://www.npmjs.com/)
+
 ```
-npm install lagden/tooltip
+npm install lagden-tooltip --save
 ```
 
-## Methods
+Via [bower](https://bower.io/)
+
+```
+bower install lagden-tooltip --save
+```
+
+
+## API
+
+### Methods
 
 There are three methods: `show`, `hide` and `destroy`.  
 Only `destroy` is available when you are using as **jQuery plugin**.
 
-## Options
+### Options
 
 Some options can be passed when initialize:
 
@@ -34,13 +47,13 @@ There are two ways:
 **Warning:**
 Examples written in `CoffeeScript`.
 
-#### Vanilla
+### Vanilla
 
 ```coffeescript
   tt = new Tooltip '#info'
 ```
 
-#### jQuery
+### jQuery
 
 ```coffeescript
   $tips = $ '.tips'
@@ -56,18 +69,18 @@ Examples written in `CoffeeScript`.
     html: true
 ```
 
+
 ## Stylesheet
 
-Take a look on [es5/tooltip.css](https://github.com/lagden/tooltip/blob/master/es5/tooltip.css) file.
+Take a look on [stylus/tooltip.styl](https://github.com/lagden/tooltip/blob/master/stylus/tooltip.styl) file.
+
 
 ## Example
 
 See [here](http://lagden.github.io/tooltip/).
-
 ![Example](https://raw.githubusercontent.com/lagden/tooltip/master/animation.gif)
 
-## Credit
 
-| [![Thiago Lagden](http://gravatar.com/avatar/bfe5ce4cb209f3e4f4584e1f5aa209c6.png?s=144)](http://lagden.in) |
-| :-----------: |
-| [Thiago Lagden](http://lagden.in) (creator) |
+## License
+
+MIT © [Thiago Lagden](http://lagden.in)

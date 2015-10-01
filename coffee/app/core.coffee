@@ -2,7 +2,7 @@
 
 define [
   'templates/sample'
-  'es5/jquery-tooltip'
+  'component/jquery-tooltip'
 ], (template) ->
 
   $info = $ '#info'

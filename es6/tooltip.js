@@ -1,12 +1,21 @@
 'use strict';
 
-import {txt, isElement, objectAssign} from './lib/utils';
-import getStyleProperty from 'get-style-property/get-style-property';
+import objectAssign from 'lagden-utils/dist/object-assign';
+import isElement from 'lagden-utils/dist/is-element';
+import textNode from 'lagden-utils/dist/text-node';
+import qS from 'lagden-utils/dist/qS';
 
-const doc = window ? window.document : global;
-const qS = el => doc.querySelector(el);
-const body = doc.boby || qS('body');
-const transform = getStyleProperty('transform');
+let doc;
+let body;
+let initializedVars = false;
+
+function setVars(win = window) {
+	if (initializedVars === false) {
+		doc = win.document;
+		body = win.document.boby || qS('body', doc);
+		initializedVars = true;
+	}
+}
 
 // Globally unique identifiers
 let GUID = 0;
@@ -15,7 +24,9 @@ let GUID = 0;
 const instances = {};
 
 class Tooltip {
-	constructor(target, opts = {}) {
+	constructor(target, opts = {}, win = undefined) {
+		setVars(win);
+
 		this.target = isElement(target) ? target : qS(target);
 
 		// Check if element was initialized and return your instance
@@ -30,7 +41,7 @@ class Tooltip {
 		instances[id] = this;
 
 		this.options = {
-			attr: 'data-title',
+			attr: 'data-lagden-tip',
 			content: '',
 			html: false,
 			css: 'theTooltip',
@@ -38,11 +49,10 @@ class Tooltip {
 			space: 15
 		};
 
-		// Object.assign(this.options, opts);
 		objectAssign(this.options, opts);
 
 		const tip = this.options.content || this.target.getAttribute(this.options.attr);
-		this.tooltip = txt(doc.createElement('div'), tip, this.options.html);
+		this.tooltip = textNode(doc.createElement('div'), tip, this.options.html);
 		this.tooltip.classList.add(this.options.css);
 		body.appendChild(this.tooltip);
 
@@ -53,29 +63,24 @@ class Tooltip {
 
 	show() {
 		let y;
+		const scrollY = window.scrollY !== undefined ? window.scrollY : window.pageYOffset;
 		const place = this.options.place;
 		const tgBounds = this.target.getBoundingClientRect();
 		const ttBounds = this.tooltip.getBoundingClientRect();
-		const check = tgBounds.top - ttBounds.height;
-		const pos = {
-			top: ((ttBounds.height + this.options.space).toFixed(0) - '') * -1,
-			bottom: ((tgBounds.height + this.options.space).toFixed(0) - '')
-		};
-		const center = (tgBounds.left +
-			((tgBounds.width / 2) - (ttBounds.width / 2))
-				).toFixed(0) - '';
+		const ttBody = (ttBounds.height + this.options.space).toFixed(0) - '';
+		const check = tgBounds.top - ttBody;
+		const center = (tgBounds.left + ((tgBounds.width / 2) - (ttBounds.width / 2))).toFixed(0) - '';
 
 		if ((check < 0 || place === 'bottom') && place !== 'top') {
-			y = pos.bottom;
+			y = tgBounds.top + tgBounds.height + scrollY + this.options.space;
 			this.tooltip.classList.add('top');
 		} else {
-			y = pos.top;
+			y = tgBounds.top + scrollY - ttBody;
 			this.tooltip.classList.remove('top');
 		}
 
-		this.tooltip.style.top = `${tgBounds.top}px`;
+		this.tooltip.style.top = `${y}px`;
 		this.tooltip.style.left = `${center}px`;
-		this.tooltip.style[transform] = `translate(0, ${y}px)`;
 		this.tooltip.classList.add(`${this.options.css}--show`);
 	}
 

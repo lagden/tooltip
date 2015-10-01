@@ -1,0 +1,16 @@
+bin
+build
+coffee
+dev
+jade
+stylus
+test
+babel-hook.js
+bower.json
+Gruntfile.*
+*.gif
+.*
+
+# don't ignore .npmignore files
+# these are used in some tests.
+!.npmignore
