@@ -3,7 +3,7 @@
 import objectAssign from 'lagden-utils/dist/object-assign';
 import isElement from 'lagden-utils/dist/is-element';
 import textNode from 'lagden-utils/dist/text-node';
-import qS from 'lagden-utils/dist/qS';
+import qS from 'lagden-utils/dist/qs';
 
 let doc;
 let body;

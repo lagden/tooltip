@@ -1,8 +1,8 @@
 (function (global, factory) {
 	if (typeof define === 'function' && define.amd) {
-		define(['exports', 'module', 'lagden-utils/dist/object-assign', 'lagden-utils/dist/is-element', 'lagden-utils/dist/text-node', 'lagden-utils/dist/qS'], factory);
+		define(['exports', 'module', 'lagden-utils/dist/object-assign', 'lagden-utils/dist/is-element', 'lagden-utils/dist/text-node', 'lagden-utils/dist/qs'], factory);
 	} else if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
-		factory(exports, module, require('lagden-utils/dist/object-assign'), require('lagden-utils/dist/is-element'), require('lagden-utils/dist/text-node'), require('lagden-utils/dist/qS'));
+		factory(exports, module, require('lagden-utils/dist/object-assign'), require('lagden-utils/dist/is-element'), require('lagden-utils/dist/text-node'), require('lagden-utils/dist/qs'));
 	} else {
 		var mod = {
 			exports: {}
@@ -10,7 +10,7 @@
 		factory(mod.exports, mod, global.objectAssign, global.isElement, global.textNode, global.qS);
 		global.tooltip = mod.exports;
 	}
-})(this, function (exports, module, _lagdenUtilsDistObjectAssign, _lagdenUtilsDistIsElement, _lagdenUtilsDistTextNode, _lagdenUtilsDistQS) {
+})(this, function (exports, module, _lagdenUtilsDistObjectAssign, _lagdenUtilsDistIsElement, _lagdenUtilsDistTextNode, _lagdenUtilsDistQs) {
 	'use strict';
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -25,7 +25,7 @@
 
 	var _textNode = _interopRequireDefault(_lagdenUtilsDistTextNode);
 
-	var _qS = _interopRequireDefault(_lagdenUtilsDistQS);
+	var _qS = _interopRequireDefault(_lagdenUtilsDistQs);
 
 	var doc = undefined;
 	var body = undefined;
