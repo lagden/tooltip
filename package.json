@@ -26,8 +26,7 @@
     "pretest": "xo",
     "test": "mocha --reporter spec --require babel-hook --require should",
     "start": "grunt serve",
-    "build": "grunt build",
-    "prepublish": "grunt build && npm test"
+    "build": "grunt build"
   },
   "dependencies": {
     "lagden-utils": "^0.4.0"
