@@ -220,6 +220,12 @@ module.exports = (grunt) ->
       require:
         src: 'node_modules/requirejs/require.js',
         dest: '<%= project.dev %>/js/lib/require.js'
+      jQuery:
+        src: 'node_modules/jquery/dist/jquery.js',
+        dest: '<%= project.dev %>/js/lib/jquery.js'
+      jadeRuntime:
+        src: 'node_modules/jade/runtime.js',
+        dest: '<%= project.dev %>/js/lib/jade.js'
       lagdenUtils:
         src: 'node_modules/lagden-utils/dist',
         dest: '<%= project.dev %>/js/lib/lagden-utils/dist'
