@@ -1,9 +1,19 @@
 # Tooltip 
-[![Build Status](https://travis-ci.org/lagden/tooltip.svg?branch=master)](https://travis-ci.org/lagden/tooltip) 
-[![Dependency Status](https://david-dm.org/lagden/tooltip.svg)](https://david-dm.org/lagden/tooltip) 
-[![devDependency Status](https://david-dm.org/lagden/tooltip/dev-status.svg)](https://david-dm.org/lagden/tooltip#info=devDependencies) 
+[![Build Status][ci-img]][ci]
+[![Coverage Status][cover-img]][cover]
+[![Dependency Status][dep-img]][dep]
+[![devDependency Status][devDep-img]][devDep]
 
-> A simple tooltip
+[ci-img]:     https://travis-ci.org/lagden/tooltip.svg
+[ci]:         https://travis-ci.org/lagden/tooltip
+[cover-img]:  https://codecov.io/github/lagden/tooltip/coverage.svg?branch=master
+[cover]:      https://codecov.io/github/lagden/tooltip?branch=master
+[dep-img]:    https://david-dm.org/lagden/tooltip/dev-status.svg
+[dep]:        https://david-dm.org/lagden/tooltip#info=devDependencies
+[devDep-img]: https://david-dm.org/lagden/tooltip/dev-status.svg
+[devDep]:     https://david-dm.org/lagden/tooltip#info=devDependencies
+
+A simple tooltip
 
 ## Install
 

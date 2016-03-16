@@ -16,7 +16,7 @@
     "email": "lagden@gmail.com",
     "url": "http://lagden.in"
   },
-  "main": "dist/tooltip.js",
+  "main": "src/tooltip.js",
   "jsnext:main": "src/tooltip.js",
   "repository": "lagden/tooltip",
   "scripts": {
@@ -24,13 +24,14 @@
     "coverage": "nyc report --reporter=lcov | codecov",
     "pretest": "xo",
     "test": "BABEL_ENV=ava nyc ava",
-    "build": "BABEL_ENV=rollup rollup -c rollup.config.tooltip.js",
-    "build-jquery": "BABEL_ENV=rollup rollup -c rollup.config.jquery-tooltip.js",
+    "rollup": "BABEL_ENV=rollup rollup -c rollup.config.tooltip.js",
+    "rollup-jquery": "BABEL_ENV=rollup rollup -c rollup.config.jquery-tooltip.js",
     "pretty": "esformatter -i --indent.value=\"\t\" 'dist/*.js'",
-    "css": "gulp"
+    "css": "gulp",
+    "build": "npm run css && npm test && npm run rollup && npm run rollup-jquery && npm run pretty"
   },
   "dependencies": {
-    "lagden-utils": "^2.1.1"
+    "lagden-utils": "^2.1.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
