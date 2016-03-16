@@ -8,39 +8,37 @@
     "homepage": "http://lagden.in"
   }],
   "main": [
-    "dist/tootip.js"
+    "dist/tootip.js",
+    "dist/jquery-tootip.js"
   ],
   "moduleType": [
-    "globals",
-    "amd",
-    "node",
-    "es6"
+    "amd"
   ],
   "repository": {
     "type": "git",
     "url": "git://github.com/lagden/tooltip.git"
   },
   "ignore": [
+    ".nyc_output",
     "bin",
     "build",
-    "coffee",
-    "dev",
-    "jade",
+    "coverage",
+    "node_modules",
+    "src",
     "stylus",
     "test",
-    "node_modules",
-    "*.md",
+    ".e*",
+    ".g*",
+    ".n*",
+    ".t*",
     "*.gif",
-    "Gruntfile.*",
-    "babel-hook.*",
+    "gulp*",
     "package.json",
-    ".*"
+    "rollup*.js",
+    "*.log"
   ],
   "keywords": [
     "tooltip",
     "bubble"
-  ],
-  "dependencies": {
-    "lagden-utils": "~0.4.0"
-  }
+  ]
 }

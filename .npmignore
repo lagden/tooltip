@@ -1,15 +1,16 @@
+.nyc_output
 bin
 build
-coffee
-dev
-jade
+coverage
 stylus
 test
-babel-hook.js
-bower.json
-Gruntfile.*
+.e*
+.g*
+.t*
 *.gif
-.*
+bower.json
+gulp*.js
+rollup*.js
 
 # don't ignore .npmignore files
 # these are used in some tests.

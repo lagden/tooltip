@@ -1,62 +1,77 @@
-(function (global, factory) {
-	if (typeof define === 'function' && define.amd) {
-		define(['exports', 'module', 'lagden-utils/dist/object-assign', 'lagden-utils/dist/is-element', 'lagden-utils/dist/text-node', 'lagden-utils/dist/qs'], factory);
-	} else if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
-		factory(exports, module, require('lagden-utils/dist/object-assign'), require('lagden-utils/dist/is-element'), require('lagden-utils/dist/text-node'), require('lagden-utils/dist/qs'));
-	} else {
-		var mod = {
-			exports: {}
-		};
-		factory(mod.exports, mod, global.objectAssign, global.isElement, global.textNode, global.qS);
-		global.tooltip = mod.exports;
-	}
-})(this, function (exports, module, _lagdenUtilsDistObjectAssign, _lagdenUtilsDistIsElement, _lagdenUtilsDistTextNode, _lagdenUtilsDistQs) {
+define(function() {
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var babelHelpers = {};
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-	var _objectAssign = _interopRequireDefault(_lagdenUtilsDistObjectAssign);
-
-	var _isElement = _interopRequireDefault(_lagdenUtilsDistIsElement);
-
-	var _textNode = _interopRequireDefault(_lagdenUtilsDistTextNode);
-
-	var _qS = _interopRequireDefault(_lagdenUtilsDistQs);
-
-	var doc = undefined;
-	var body = undefined;
-	var initializedVars = false;
-
-	function setVars() {
-		var win = arguments.length <= 0 || arguments[0] === undefined ? window : arguments[0];
-
-		if (initializedVars === false) {
-			doc = win.document;
-			body = win.document.boby || (0, _qS['default'])('body', doc);
-			initializedVars = true;
+	babelHelpers.classCallCheck = function(instance, Constructor) {
+		if (!(instance instanceof Constructor)) {
+			throw new TypeError("Cannot call a class as a function");
 		}
+	};
+
+	babelHelpers.createClass = function() {
+		function defineProperties(target, props) {
+			for (var i = 0; i < props.length; i++) {
+				var descriptor = props[i];
+				descriptor.enumerable = descriptor.enumerable || false;
+				descriptor.configurable = true;
+				if ("value" in descriptor)
+					descriptor.writable = true;
+				Object.defineProperty(target, descriptor.key, descriptor);
+			}
+		}
+
+		return function(Constructor, protoProps, staticProps) {
+			if (protoProps) defineProperties(Constructor.prototype, protoProps);
+			if (staticProps) defineProperties(Constructor, staticProps);
+			return Constructor;
+		};
+	}();
+
+	babelHelpers;
+
+	function extend(a, b) {
+		Object.keys(b).forEach(function(prop) {
+			a[prop] = b[prop];
+		});
+		return a;
 	}
 
-	// Globally unique identifiers
-	var GUID = 0;
+	function isElement(obj) {
+		return obj instanceof HTMLElement;
+	}
+
+	function qS(el) {
+		return document.querySelector(el);
+	}
+
+	function textNode(node, txt) {
+		var stringHTML = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+
+		if (stringHTML) {
+			node.insertAdjacentHTML('afterbegin', txt);
+		} else {
+			node.appendChild(document.createTextNode(txt));
+		}
+		return node;
+	}
+
+	// Helpers
+	var isCSS1Compat = (document.compatMode || "") === "CSS1Compat";
+	var body = document.body || qS('body');
 
 	// Internal store of all Tooltip intances
 	var instances = {};
 
-	var Tooltip = (function () {
+	// Globally unique identifiers
+	var GUID = 0;
+
+	var Tooltip = function() {
 		function Tooltip(target) {
 			var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-			var win = arguments.length <= 2 || arguments[2] === undefined ? undefined : arguments[2];
+			babelHelpers.classCallCheck(this, Tooltip);
 
-			_classCallCheck(this, Tooltip);
-
-			setVars(win);
-
-			this.target = (0, _isElement['default'])(target) ? target : (0, _qS['default'])(target);
+			this.target = isElement(target) ? target : qS(target);
 
 			// Check if element was initialized and return your instance
 			var initialized = Tooltip.data(this.target);
@@ -77,11 +92,10 @@
 				place: 'auto',
 				space: 15
 			};
-
-			(0, _objectAssign['default'])(this.options, opts);
+			this.options = extend(this.options, opts);
 
 			var tip = this.options.content || this.target.getAttribute(this.options.attr);
-			this.tooltip = (0, _textNode['default'])(doc.createElement('div'), tip, this.options.html);
+			this.tooltip = textNode(document.createElement('div'), tip, this.options.html);
 			this.tooltip.classList.add(this.options.css);
 			body.appendChild(this.tooltip);
 
@@ -90,11 +104,11 @@
 			this.target.addEventListener('click', this, false);
 		}
 
-		_createClass(Tooltip, [{
+		babelHelpers.createClass(Tooltip, [{
 			key: 'show',
 			value: function show() {
-				var y = undefined;
-				var scrollY = window.scrollY !== undefined ? window.scrollY : window.pageYOffset;
+				var y = void 0;
+				var scrollY = window.pageYOffset || isCSS1Compat ? document.documentElement.scrollTop : body.scrollTop;
 				var place = this.options.place;
 				var tgBounds = this.target.getBoundingClientRect();
 				var ttBounds = this.tooltip.getBoundingClientRect();
@@ -150,15 +164,14 @@
 				}
 			}
 		}]);
-
 		return Tooltip;
-	})();
+	}();
 
-	Tooltip.data = function (el) {
+	Tooltip.data = function(el) {
 		var id = el && el.GUID;
 		return id && instances[id];
 	};
 
-	module.exports = Tooltip;
+	return Tooltip;
+
 });
-//# sourceMappingURL=tooltip.js.map

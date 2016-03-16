@@ -13,7 +13,7 @@ function Plugin(option = {}) {
 				instance[option]();
 				instance = null;
 			}
-		} else if (typeof option === 'object') {
+		} else if (typeof option !== 'string') {
 			instance = new Tooltip(el, option);
 			$.data(el, namespace, instance);
 		}

@@ -1,32 +1,19 @@
 'use strict';
 
-import objectAssign from 'lagden-utils/dist/object-assign';
-import isElement from 'lagden-utils/dist/is-element';
-import textNode from 'lagden-utils/dist/text-node';
-import qS from 'lagden-utils/dist/qs';
+import {qS, textNode, isElement, extend} from 'lagden-utils';
 
-let doc;
-let body;
-let initializedVars = false;
-
-function setVars(win = window) {
-	if (initializedVars === false) {
-		doc = win.document;
-		body = win.document.boby || qS('body', doc);
-		initializedVars = true;
-	}
-}
-
-// Globally unique identifiers
-let GUID = 0;
+// Helpers
+const isCSS1Compat = ((document.compatMode || "") === "CSS1Compat");
+const body = document.body || qS('body');
 
 // Internal store of all Tooltip intances
 const instances = {};
 
-class Tooltip {
-	constructor(target, opts = {}, win = undefined) {
-		setVars(win);
+// Globally unique identifiers
+let GUID = 0;
 
+class Tooltip {
+	constructor(target, opts = {}) {
 		this.target = isElement(target) ? target : qS(target);
 
 		// Check if element was initialized and return your instance
@@ -48,11 +35,10 @@ class Tooltip {
 			place: 'auto',
 			space: 15
 		};
-
-		objectAssign(this.options, opts);
+		this.options = extend(this.options, opts);
 
 		const tip = this.options.content || this.target.getAttribute(this.options.attr);
-		this.tooltip = textNode(doc.createElement('div'), tip, this.options.html);
+		this.tooltip = textNode(document.createElement('div'), tip, this.options.html);
 		this.tooltip.classList.add(this.options.css);
 		body.appendChild(this.tooltip);
 
@@ -63,7 +49,7 @@ class Tooltip {
 
 	show() {
 		let y;
-		const scrollY = window.scrollY !== undefined ? window.scrollY : window.pageYOffset;
+		const scrollY = window.pageYOffset || isCSS1Compat ? document.documentElement.scrollTop : body.scrollTop;
 		const place = this.options.place;
 		const tgBounds = this.target.getBoundingClientRect();
 		const ttBounds = this.tooltip.getBoundingClientRect();

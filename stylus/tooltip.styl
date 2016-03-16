@@ -1,17 +1,16 @@
+$theTooltip = {
+  bgcolor: rgba(black, 0.7)
+  arrow: 10
+  radius: 5
+  maxWidth: 250
+  padding: 15
+}
+
 .theTooltip
-  $bgcolor = rgba(black, 0.7)
-  $arrow = 10
-  $radius = 5
-  $maxWidth = 250
-  $padding = 15
-
-  backface-visibility: hidden
-  will-change: opacity
-
-  max-width: $maxWidth * 1px
-  border-radius: $radius * 1px
-  background-color: $bgcolor
-  padding: $padding * 1px
+  max-width: $theTooltip.maxWidth * 1px
+  border-radius: $theTooltip.radius * 1px
+  background-color: $theTooltip.bgcolor
+  padding: $theTooltip.padding * 1px
   color: white
   box-sizing: border-box
   display: inline-block
@@ -23,25 +22,27 @@
   visibility: hidden
   margin: 0
   opacity: 0
-  transition: opacity 0.3s ease-out
   z-index: 100
+  backface-visibility: hidden
+  will-change: opacity
+  transition: opacity 0.3s ease-out
 
   &:after
     width: 0
     height: 0
-    border-left: $arrow * 1px solid transparent
-    border-right: $arrow * 1px solid transparent
-    border-top: $arrow * 1px solid $bgcolor
+    border-left: $theTooltip.arrow * 1px solid transparent
+    border-right: $theTooltip.arrow * 1px solid transparent
+    border-top: $theTooltip.arrow * 1px solid $theTooltip.bgcolor
     content: ''
     position: absolute
     left: 50%
-    bottom: $arrow * -1px
-    margin-left: $arrow * -1px
+    bottom: $theTooltip.arrow * -1px
+    margin-left: $theTooltip.arrow * -1px
 
-  &.top:after
+  &--top:after
     border-top-color: transparent
-    border-bottom: $arrow * 1px solid $bgcolor
-    top: $arrow * -2px
+    border-bottom: $theTooltip.arrow * 1px solid $theTooltip.bgcolor
+    top: $theTooltip.arrow * -2px
     bottom: auto
 
   &--show
