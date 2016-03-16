@@ -40,6 +40,7 @@ class Tooltip {
 		const tip = this.options.content || this.target.getAttribute(this.options.attr);
 		this.tooltip = textNode(document.createElement('div'), tip, this.options.html);
 		this.tooltip.classList.add(this.options.css);
+
 		body.appendChild(this.tooltip);
 
 		this.target.addEventListener('mouseenter', this, false);

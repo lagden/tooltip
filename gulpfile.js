@@ -1,32 +1,20 @@
 'use strict';
 
 const gulp = require('gulp');
-const babel = require('gulp-babel');
-const xo = require('gulp-xo');
+const stylus = require('gulp-stylus');
+const postcss = require('gulp-postcss');
 
-const scriptSource = ['src/*.js'];
-const babelOptions = {
-	plugins: [
-		'transform-es2015-modules-amd'
-	]
-};
-
-function errorHandler() {
-	this.emit('end');
-}
-
-function script() {
+function style() {
 	return gulp
-		.src(scriptSource)
-		.pipe(xo().on('error', errorHandler))
-		.pipe(babel(babelOptions))
+		.src('stylus/*.styl')
+		.pipe(stylus({
+			compress: true
+		}))
+		.pipe(postcss([
+			require('autoprefixer')({browsers: 'last 2 versions'})
+		]))
 		.pipe(gulp.dest('dist'));
 }
 
-function watch() {
-	gulp.watch(scriptSource, ['script']);
-}
-
-gulp.task('script', script);
-gulp.task('default', ['script']);
-gulp.task('watch', ['default'], watch);
+gulp.task('style', style);
+gulp.task('default', ['style']);

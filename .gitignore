@@ -1,7 +1,7 @@
-node_modules
+.nyc_output
 build
-dev
-!dev/favicon.ico
+coverage
+node_modules
 
 # Others
 cgi-bin

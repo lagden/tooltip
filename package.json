@@ -26,12 +26,14 @@
     "test": "BABEL_ENV=ava nyc ava",
     "build": "BABEL_ENV=rollup rollup -c rollup.config.tooltip.js",
     "build-jquery": "BABEL_ENV=rollup rollup -c rollup.config.jquery-tooltip.js",
-    "pretty": "esformatter -i --indent.value=\"\t\" 'dist/*.js'"
+    "pretty": "esformatter -i --indent.value=\"\t\" 'dist/*.js'",
+    "css": "gulp"
   },
   "dependencies": {
     "lagden-utils": "^2.1.1"
   },
   "devDependencies": {
+    "autoprefixer": "^6.3.3",
     "ava": "^0.13.0",
     "babel": "^6.5.2",
     "babel-preset-es2015": "^6.6.0",

@@ -1,37 +1,35 @@
-define(function() {
-	'use strict';
+define(function () { 'use strict';
 
 	var babelHelpers = {};
 
-	babelHelpers.classCallCheck = function(instance, Constructor) {
-		if (!(instance instanceof Constructor)) {
-			throw new TypeError("Cannot call a class as a function");
-		}
+	babelHelpers.classCallCheck = function (instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
 	};
 
-	babelHelpers.createClass = function() {
-		function defineProperties(target, props) {
-			for (var i = 0; i < props.length; i++) {
-				var descriptor = props[i];
-				descriptor.enumerable = descriptor.enumerable || false;
-				descriptor.configurable = true;
-				if ("value" in descriptor)
-					descriptor.writable = true;
-				Object.defineProperty(target, descriptor.key, descriptor);
-			}
-		}
+	babelHelpers.createClass = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];
+	      descriptor.enumerable = descriptor.enumerable || false;
+	      descriptor.configurable = true;
+	      if ("value" in descriptor) descriptor.writable = true;
+	      Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }
 
-		return function(Constructor, protoProps, staticProps) {
-			if (protoProps) defineProperties(Constructor.prototype, protoProps);
-			if (staticProps) defineProperties(Constructor, staticProps);
-			return Constructor;
-		};
+	  return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+	    if (staticProps) defineProperties(Constructor, staticProps);
+	    return Constructor;
+	  };
 	}();
 
 	babelHelpers;
 
 	function extend(a, b) {
-		Object.keys(b).forEach(function(prop) {
+		Object.keys(b).forEach(function (prop) {
 			a[prop] = b[prop];
 		});
 		return a;
@@ -66,7 +64,7 @@ define(function() {
 	// Globally unique identifiers
 	var GUID = 0;
 
-	var Tooltip = function() {
+	var Tooltip = function () {
 		function Tooltip(target) {
 			var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 			babelHelpers.classCallCheck(this, Tooltip);
@@ -97,6 +95,7 @@ define(function() {
 			var tip = this.options.content || this.target.getAttribute(this.options.attr);
 			this.tooltip = textNode(document.createElement('div'), tip, this.options.html);
 			this.tooltip.classList.add(this.options.css);
+
 			body.appendChild(this.tooltip);
 
 			this.target.addEventListener('mouseenter', this, false);
@@ -167,7 +166,7 @@ define(function() {
 		return Tooltip;
 	}();
 
-	Tooltip.data = function(el) {
+	Tooltip.data = function (el) {
 		var id = el && el.GUID;
 		return id && instances[id];
 	};
