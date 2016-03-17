@@ -1,3 +1,6 @@
+sudo: required
 language: node_js
 node_js:
   - "5.1"
+before_install: npm install -g gulp-cli
+after_script: bash bin/deploy-gh-pages.sh
