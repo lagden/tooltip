@@ -2,7 +2,7 @@
 
 set -ev
 rm -rf build || exit 0;
-grunt build
+npm run demo
 cd build
 git init
 git config user.name "Travis CI"

@@ -1,6 +1,6 @@
 # Tooltip 
 [![Build Status][ci-img]][ci]
-[![Coverage Status][cover-img]][cover]
+<!-- [![Coverage Status][cover-img]][cover] -->
 [![Dependency Status][dep-img]][dep]
 [![devDependency Status][devDep-img]][devDep]
 
@@ -17,16 +17,16 @@ A simple tooltip
 
 ## Install
 
-Via [NPM](https://www.npmjs.com/)
+`AMD` and `ES6` via [NPM](https://www.npmjs.com/)  
 
 ```
-npm install lagden-tooltip --save
+npm i -S lagden-tooltip
 ```
 
-Via [bower](https://bower.io/)
+Only `AMD` via [bower](https://bower.io/) 
 
 ```
-bower install lagden-tooltip --save
+bower install -S lagden-tooltip
 ```
 
 
@@ -42,40 +42,33 @@ Some options can be passed when initialize:
 
 | Option | Description | Default |
 | --- | --- | --- |
-| attr | Specify from whence come the value | `'data-title'` |
-| content | Custom value | `''` |
+| attr | Specify from whence come the value | `'data-lagden-tip'` |
+| content | Custom value | `false` |
 | html | Escaping your value | `false` |
 | css | The component stylesheet class name | `'theTooltip'` |
 | place | Force the place where shown the tooltip. Possibles values: `auto`, `top` and `bottom` | `'auto'` |
 | space | Add some space between target and tooltip | `15` |
+| fixed | Avoid position error if the target is fixed or is within a fixed element | `false` |
 
 ## Usage
 
 There are two ways:
 
-**Warning:**
-Examples written in `CoffeeScript`.
-
 ### Vanilla
 
-```coffeescript
-  tt = new Tooltip '#info'
+```javascript
+var t = document.querySelector('#el');
+var tooltip = new Tooltip(t, {content: 'Example!'});
 ```
 
 ### jQuery
 
-```coffeescript
-  $tips = $ '.tips'
-  $tips.theTooltip()
-
-  # Custom options
-  $info = $ '#info'
-  $info.theTooltip
-    content: '''
-      <h3>Title</h3>
-      <p>Some pretty cool stuff!</p>
-    '''
-    html: true
+```javascript
+var $t = $('#el');
+$t.theTooltip({
+  content: '<h3>Title</h3><p>Some pretty cool stuff!</p>',
+  html: true
+});
 ```
 
 

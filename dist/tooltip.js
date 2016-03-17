@@ -86,17 +86,21 @@ define(function() {
 
 			this.options = {
 				attr: 'data-lagden-tip',
-				content: '',
+				content: false,
 				html: false,
 				css: 'theTooltip',
 				place: 'auto',
-				space: 15
+				space: 15,
+				fixed: false
 			};
 			this.options = extend(this.options, opts);
 
 			var tip = this.options.content || this.target.getAttribute(this.options.attr);
 			this.tooltip = textNode(document.createElement('div'), tip, this.options.html);
 			this.tooltip.classList.add(this.options.css);
+			if (this.options.fixed) {
+				this.tooltip.style.position = 'fixed';
+			}
 
 			body.appendChild(this.tooltip);
 
@@ -117,12 +121,16 @@ define(function() {
 				var check = tgBounds.top - ttBody;
 				var center = (tgBounds.left + (tgBounds.width / 2 - ttBounds.width / 2)).toFixed(0) - '';
 
+				if (this.options.fixed) {
+					scrollY = 0;
+				}
+
 				if ((check < 0 || place === 'bottom') && place !== 'top') {
 					y = tgBounds.top + tgBounds.height + scrollY + this.options.space;
-					this.tooltip.classList.add('top');
+					this.tooltip.classList.add(this.options.css + '--top');
 				} else {
 					y = tgBounds.top + scrollY - ttBody;
-					this.tooltip.classList.remove('top');
+					this.tooltip.classList.remove(this.options.css + '--top');
 				}
 
 				this.tooltip.style.top = y + 'px';
@@ -155,8 +163,6 @@ define(function() {
 						this.show(event);
 						break;
 					case 'mouseleave':
-						this.hide(event);
-						break;
 					case 'click':
 						this.hide(event);
 						break;
