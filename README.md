@@ -1,6 +1,5 @@
 # Tooltip 
 [![Build Status][ci-img]][ci]
-<!-- [![Coverage Status][cover-img]][cover] -->
 [![Dependency Status][dep-img]][dep]
 [![devDependency Status][devDep-img]][devDep]
 
